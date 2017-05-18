@@ -1,14 +1,18 @@
 package com.shangshow.showlive.controller.hotvideoexcel;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.shangshow.showlive.R;
 import com.shangshow.showlive.base.BaseActivity;
 import com.shangshow.showlive.common.model.ImageInfo;
 import com.shangshow.showlive.controller.adapter.HotmannlerAdapter;
+import com.shangshow.showlive.controller.member.BunchActivity;
 import com.shangshow.showlive.model.UserModel;
 import com.shangshow.showlive.model.callback.Callback;
+import com.shaojun.widget.superAdapter.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,5 +73,13 @@ public class HotMannler extends BaseActivity {
         hot_recyclerview.setLayoutManager(new LinearLayoutManager(this));
         hotmannlerAdapter = new HotmannlerAdapter(getBaseContext(), imageInfos, R.layout.image_info_layout);
         hot_recyclerview.setAdapter(hotmannlerAdapter);
+        hotmannlerAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View itemView, int viewType, int position) {
+                Intent intent = new Intent(getBaseContext(), BunchActivity.class);
+                intent.putExtra("currTitle", imageInfos.get(position).videoType + "");
+                startActivity(intent);
+            }
+        });
     }
 }

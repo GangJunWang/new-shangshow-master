@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:layout_width="@dimen/dp80"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp80"
         android:layout_marginLeft="@dimen/dp05"
         android:layout_marginTop="@dimen/dp05"
@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/iv_image_info_title"
-            android:layout_width="@dimen/dp80"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/dp80"
             android:src="@mipmap/ic_launcher"
             android:scaleType="centerCrop" />
