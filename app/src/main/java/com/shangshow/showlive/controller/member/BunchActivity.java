@@ -94,7 +94,7 @@ public class BunchActivity extends BaseActivity {
                 if (!"".equals(memberAdapter.getItem(position).OSSUrl)) {
                     Intent intent = new Intent(BunchActivity.this, PlayVideoCommint.class);
                     intent.putExtra("videourl", memberAdapter.getItem(position).OSSUrl);
-                    System.out.println("------------" + memberAdapter.getItem(position).OSSUrl);
+                    System.out.println("------------拿到得链接     " + memberAdapter.getItem(position).OSSUrl);
                     startActivity(intent);
                 } else {
                     ToastUtils.show("视频源失效");

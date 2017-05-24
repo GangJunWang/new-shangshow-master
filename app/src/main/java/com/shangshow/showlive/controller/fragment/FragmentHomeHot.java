@@ -336,6 +336,11 @@ public class FragmentHomeHot extends BasePageFragment implements View.OnClickLis
     }
 
     private void loadData() {
+
+        int a = 5;
+        int b= 6;
+        a=b;
+
         lpdeHomeHot();
         loadHomeHotAds();
         loadHomeRecommend(MConstants.DATA_4_REFRESH);

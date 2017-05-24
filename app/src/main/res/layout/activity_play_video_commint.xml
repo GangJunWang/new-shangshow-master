@@ -3,9 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_play_video_commint"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#000"
+    android:gravity="center">
     <com.shangshow.showlive.common.utils.CustomVideoView
         android:id="@+id/play_video_commint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+    <VideoView
+        android:id="@+id/play_video_commint2"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
