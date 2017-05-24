@@ -23,7 +23,6 @@ import com.shangshow.showlive.common.model.ImageInfo;
 import com.shangshow.showlive.common.utils.CommonUtil;
 import com.shangshow.showlive.common.utils.ScreenUtil;
 import com.shangshow.showlive.common.utils.ShangXiuUtil;
-import com.shangshow.showlive.common.utils.ToastUtils;
 import com.shangshow.showlive.common.widget.ultra.header.GapV;
 import com.shangshow.showlive.common.widget.ultra.loadmore.LoadMoreFooterView;
 import com.shangshow.showlive.common.widget.ultra.loadmore.RLPtrFrameLayout;
@@ -36,7 +35,6 @@ import com.shangshow.showlive.controller.adapter.HomeLiveVideoSingleAdapter;
 import com.shangshow.showlive.controller.adapter.RecyclerScrollPauseLoadListener;
 import com.shangshow.showlive.controller.common.LoginActivity;
 import com.shangshow.showlive.controller.hotvideoexcel.HotMannler;
-import com.shangshow.showlive.controller.hotvideoexcel.HotVideo;
 import com.shangshow.showlive.controller.liveshow.LiveAudienceActivity;
 import com.shangshow.showlive.controller.liveshow.video.PlayVideoActivity;
 import com.shangshow.showlive.controller.member.BunchActivity;
@@ -47,10 +45,12 @@ import com.shangshow.showlive.model.callback.Callback;
 import com.shangshow.showlive.network.service.models.AdsInfo;
 import com.shangshow.showlive.network.service.models.Pager;
 import com.shangshow.showlive.network.service.models.VideoRoom;
+import com.shangshow.showlive.network.service.models.body.HomeHotFirstBody;
 import com.shangshow.showlive.network.service.models.body.PageBody;
 import com.shaojun.widget.superAdapter.OnItemClickListener;
 import com.shaojun.widget.superAdapter.divider.HorizontalDividerItemDecoration;
 import com.shaojun.widget.superAdapter.divider.VerticalDividerItemDecoration;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +84,10 @@ public class FragmentHomeHot extends BasePageFragment implements View.OnClickLis
     private long currRecommendPage = 1;//推荐列表分页
     private ImageView hot_video;
     private TextView more_subscription_channel;
+    private TextView texttitle1;
+    private TextView texttitle2;
+    private ImageView titleImage;
+    private HomeHotFirstBody homeHotFirstBodys;
 
     public static FragmentHomeHot newInstance(String title) {
         FragmentHomeHot f = new FragmentHomeHot();
@@ -151,11 +155,11 @@ public class FragmentHomeHot extends BasePageFragment implements View.OnClickLis
                 if (!CommonUtil.isClickSoFast(MConstants.DELAYED)) {
                     if (CacheCenter.getInstance().isLogin()) {
                         VideoRoom videoRoom = homeLiveVideoSingleAdapter.getItem(position);
-                        if("LIV".equals(videoRoom.videoStatus)){
+                        if ("LIV".equals(videoRoom.videoStatus)) {
                             LiveAudienceActivity.start(mContext, videoRoom);
-                            ToastUtils.show("" + videoRoom.logoUrl);
+                        //    ToastUtils.show("" + videoRoom.logoUrl);
                         }
-                        if("OFF".equals(videoRoom.videoStatus)){
+                        if ("OFF".equals(videoRoom.videoStatus)) {
                             Intent intent = new Intent(mContext, PlayVideoActivity.class);
                             intent.putExtra("uri", videoRoom.videoUrl + "");
                             startActivity(intent);
@@ -184,6 +188,11 @@ public class FragmentHomeHot extends BasePageFragment implements View.OnClickLis
         // 新增UI界面
         hot_video = (ImageView) topView.findViewById(R.id.Hot_video);
         hot_video.setOnClickListener(this);
+        // title
+        texttitle1 = (TextView) topView.findViewById(R.id.text1);
+        texttitle2 = (TextView) topView.findViewById(R.id.text2);
+        //titieimage
+        titleImage = (ImageView) topView.findViewById(R.id.ImageView1);
         more_subscription_channel = (TextView) topView.findViewById(R.id.More_subscription_channel);
         more_subscription_channel.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         more_subscription_channel.setOnClickListener(this);
@@ -227,6 +236,7 @@ public class FragmentHomeHot extends BasePageFragment implements View.OnClickLis
      */
     /**
      * 查看个人详情
+     *
      * @param loadType
      * @param dataList
      */
@@ -288,7 +298,7 @@ public class FragmentHomeHot extends BasePageFragment implements View.OnClickLis
 //        imageInfos.add(new ImageInfo(R.drawable.movie, "电影"));
 //        imageInfos.add(new ImageInfo(R.drawable.design, "设计"));
 //        imageInfos.add(new ImageInfo(R.drawable.tourism, "旅行"));
-      // imageInfos.add(new ImageInfo(R.drawable.fitness, "健身"));
+        // imageInfos.add(new ImageInfo(R.drawable.fitness, "健身"));
         userModel.getPGCVideoType(new Callback<List<ImageInfo>>() {
             @Override
             public void onSuccess(List<ImageInfo> datas) {
@@ -312,22 +322,50 @@ public class FragmentHomeHot extends BasePageFragment implements View.OnClickLis
             case R.id.videos_type_grid_layout:
                 rlPtrFrameLayout.switchType(MConstants.RECYCLER_GRID);
                 break;
-            case R.id.Hot_video:{
-                startActivity(new Intent(getActivity(), HotVideo.class));
+            case R.id.Hot_video: {
+                Intent intent = new Intent(getActivity(), BunchActivity.class);
+                intent.putExtra("currTitle", homeHotFirstBodys.pgcVideoTypesId + "");
+                startActivity(intent);
             }
-                break;
-            case R.id.More_subscription_channel:{
-               startActivity(new Intent(getActivity(), HotMannler.class));
+            break;
+            case R.id.More_subscription_channel: {
+                startActivity(new Intent(getActivity(), HotMannler.class));
             }
-                break;
+            break;
         }
     }
 
     private void loadData() {
+        lpdeHomeHot();
         loadHomeHotAds();
         loadHomeRecommend(MConstants.DATA_4_REFRESH);
         loadHomeHotVideoRoom(MConstants.DATA_4_REFRESH);
     }
+
+    private void lpdeHomeHot() {
+        userModel.getHomeHot(new Callback<HomeHotFirstBody>() {
+            @Override
+            public void onSuccess(HomeHotFirstBody homeHotFirstBody) {
+                homeHotFirstBodys = homeHotFirstBody;
+                setInitView(homeHotFirstBody);
+
+            }
+
+            @Override
+            public void onFailure(int resultCode, String message) {
+
+            }
+        });
+    }
+
+    private void setInitView(HomeHotFirstBody homeHotFirstBody) {
+
+        texttitle1.setText(homeHotFirstBody.title);
+        texttitle2.setText(homeHotFirstBody.content);
+        Picasso.with(getActivity()).load(homeHotFirstBody.logoUrl).placeholder(R.mipmap.youtube).into(titleImage);
+        Picasso.with(getActivity()).load(homeHotFirstBody.imgUrl).placeholder(R.mipmap.youtube).into(hot_video);
+    }
+
 
     /**
      * 加载首页广告

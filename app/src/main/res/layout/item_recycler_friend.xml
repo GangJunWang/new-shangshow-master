@@ -78,7 +78,7 @@
                 android:textSize="@dimen/dp12"
                 android:text="取消关注"
                 android:background="@drawable/shape_yellow_corner_2"
-                android:textColor="@color/ebpay_list_ffe09f" />
+                android:textColor="@color/color_text_yellow_faec55" />
 
             <!--<TextView-->
                 <!--android:id="@+id/rewardme_dcount_tv"-->

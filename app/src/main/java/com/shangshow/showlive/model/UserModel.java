@@ -35,9 +35,13 @@ import com.shangshow.showlive.network.service.models.body.BasePageBody;
 import com.shangshow.showlive.network.service.models.body.CooperationPageBody;
 import com.shangshow.showlive.network.service.models.body.FavouriteApplyBody;
 import com.shangshow.showlive.network.service.models.body.GoodsPageBody;
+import com.shangshow.showlive.network.service.models.body.HomeHotFirstBody;
+import com.shangshow.showlive.network.service.models.body.HotMoreListBody;
 import com.shangshow.showlive.network.service.models.body.MerchantApplyBody;
 import com.shangshow.showlive.network.service.models.body.OrderPageBody;
 import com.shangshow.showlive.network.service.models.body.PageBody;
+import com.shangshow.showlive.network.service.models.body.PayOrderDto;
+import com.shangshow.showlive.network.service.models.body.PayRecBody;
 import com.shangshow.showlive.network.service.models.body.RewardGiftBody;
 import com.shangshow.showlive.network.service.models.body.StarApplyBody;
 import com.shangshow.showlive.network.service.models.body.StartLiveBody;
@@ -45,6 +49,7 @@ import com.shangshow.showlive.network.service.models.body.UserBody;
 import com.shangshow.showlive.network.service.models.body.UserBusinessCooperationBody;
 import com.shangshow.showlive.network.service.models.body.VideoOffLiveBody;
 import com.shangshow.showlive.network.service.models.body.WeChatUserInfo;
+import com.shangshow.showlive.network.service.models.body.YoutubeListBody;
 import com.shangshow.showlive.network.service.models.requestJson.BuyProductRequest;
 import com.shangshow.showlive.network.service.models.responseBody.BuyProductResponse;
 import com.shangshow.showlive.network.service.models.responseBody.EditFriendBody;
@@ -581,7 +586,7 @@ public class UserModel extends BaseModel implements IUserModel {
         Subscription subscription = apiWrapper.getRecomUserList(pageBody).subscribe(new NewSubscriber<Pager<UserInfo>>(context, false) {
             @Override
             public void onNext(Pager<UserInfo> recommendPage) {
-                    callback.onSuccess(recommendPage);
+                callback.onSuccess(recommendPage);
             }
 
             @Override
@@ -595,6 +600,7 @@ public class UserModel extends BaseModel implements IUserModel {
 
     /**
      * 首页
+     *
      * @param callback
      */
     @Override
@@ -674,7 +680,8 @@ public class UserModel extends BaseModel implements IUserModel {
 
     /**
      * 购买商品->下订单
-     * @param productId 产品编号
+     *
+     * @param productId      产品编号
      * @param buyProductInfo 购买信息
      * @param callback
      */
@@ -699,7 +706,8 @@ public class UserModel extends BaseModel implements IUserModel {
 
     /**
      * 充值商秀币->下订单
-     * @param productId 产品编号
+     *
+     * @param productId      产品编号
      * @param buyProductInfo 购买信息
      * @param callback
      */
@@ -721,6 +729,7 @@ public class UserModel extends BaseModel implements IUserModel {
                 });
         addSubscrebe(subscription);
     }
+
     @Override
     public void getUserCooperationList(PageBody pageBody, final Callback<Pager<UserInfo>> callback) {
         ApiWrapper apiWrapper = new ApiWrapper();
@@ -799,7 +808,7 @@ public class UserModel extends BaseModel implements IUserModel {
     }
 
     @Override
-    public void getVSInfoList(final Callback<List<VideoRemind>> callback){
+    public void getVSInfoList(final Callback<List<VideoRemind>> callback) {
         ApiWrapper apiWrapper = new ApiWrapper();
         Subscription subscription = apiWrapper.getVSInfoList().subscribe(new NewSubscriber<List<VideoRemind>>(context, false) {
             @Override
@@ -818,7 +827,7 @@ public class UserModel extends BaseModel implements IUserModel {
     }
 
     @Override
-    public void subscriberStar(long userId, final Callback<Object> callback){
+    public void subscriberStar(long userId, final Callback<Object> callback) {
         ApiWrapper apiWrapper = new ApiWrapper();
         Subscription subscription = apiWrapper.subscriberStar(userId).subscribe(new NewSubscriber<Object>(context, true) {
             @Override
@@ -919,11 +928,11 @@ public class UserModel extends BaseModel implements IUserModel {
     }
 
     /**
-     *
      * 查询用户当前订单信息
-     * @return
+     *
      * @param pageBody
      * @param callback
+     * @return
      */
     @Override
     public void getOrderList(OrderPageBody pageBody, final Callback<Pager<OrderInfo>> callback) {
@@ -944,11 +953,11 @@ public class UserModel extends BaseModel implements IUserModel {
     }
 
     /**
-     *
      * 操作用户当前订单信息 去支付 或  取消
-     * @return
-     * @param pageBody
+     *
+     * @param
      * @param callback
+     * @return
      */
 
     @Override
@@ -968,6 +977,7 @@ public class UserModel extends BaseModel implements IUserModel {
         });
         addSubscrebe(subscription);
     }
+
     @Override
     public void getRewardMeList(PageBody pageBody, final Callback<Pager<RewardInfo>> callback) {
         ApiWrapper apiWrapper = new ApiWrapper();
@@ -1343,7 +1353,8 @@ public class UserModel extends BaseModel implements IUserModel {
 
     /**
      * 根据roomId 获取主播的videoRoom 信息
-     * @param pgcVideoInfo
+     *
+     * @param
      * @param callback
      */
     @Override
@@ -1367,7 +1378,8 @@ public class UserModel extends BaseModel implements IUserModel {
 
     /**
      * 支付成功后上传订单号
-     * @param cooperationPageBody
+     *
+     * @param
      * @param callback
      */
     @Override
@@ -1653,4 +1665,90 @@ public class UserModel extends BaseModel implements IUserModel {
         addSubscrebe(subscription);
     }
 
+    /**
+     * 获取支付所需要的参数信息
+     */
+
+    @Override
+    public void getPayStringBody(PayOrderDto payOrderDto, final Callback<PayRecBody> callback) {
+        ApiWrapper apiWrapper = new ApiWrapper();
+        Subscription subscription = apiWrapper.getPayStringBody(payOrderDto)
+                .subscribe(new NewSubscriber<PayRecBody>(context, true) {
+                    @Override
+                    public void onNext(PayRecBody user) {
+                        callback.onSuccess(user);
+                    }
+
+                    @Override
+                    protected void onError(ApiException ex) {
+                        super.onError(ex);
+                        callback.onFailure(ex.getCode(), ex.getErrMessage());
+                    }
+                });
+        addSubscrebe(subscription);
+    }
+
+    /**
+     * 获取封面列表信息
+     */
+
+    @Override
+    public void getHomeHot(final Callback<HomeHotFirstBody> callback) {
+        ApiWrapper apiWrapper = new ApiWrapper();
+        Subscription subscription = apiWrapper.getHomeHot()
+                .subscribe(new NewSubscriber<HomeHotFirstBody>(context, true) {
+                    @Override
+                    public void onNext(HomeHotFirstBody user) {
+                        callback.onSuccess(user);
+                    }
+
+                    @Override
+                    protected void onError(ApiException ex) {
+                        super.onError(ex);
+                        callback.onFailure(ex.getCode(), ex.getErrMessage());
+                    }
+                });
+        addSubscrebe(subscription);
+    }
+
+    /**
+     * 获取Youtube信息
+     */
+
+    @Override
+    public void getYoutubeList(String dingdanhao, final Callback<YoutubeListBody> callback) {
+        ApiWrapper apiWrapper = new ApiWrapper();
+        Subscription subscription = apiWrapper.getYoutubeList(dingdanhao)
+                .subscribe(new NewSubscriber<YoutubeListBody>(context, true) {
+                    @Override
+                    public void onNext(YoutubeListBody object) {
+                        callback.onSuccess(object);
+                    }
+
+                    @Override
+                    protected void onError(ApiException ex) {
+                        super.onError(ex);
+                        callback.onFailure(ex.getCode(), ex.getErrMessage());
+                    }
+                });
+        addSubscrebe(subscription);
+    }
+    @Override
+    public void getHotMoreList(PageBody pageBody, final Callback<HotMoreListBody> callback) {
+        ApiWrapper apiWrapper = new ApiWrapper();
+        Subscription subscription = apiWrapper.getHotMoreList(pageBody)
+                .subscribe(new NewSubscriber<HotMoreListBody>(context, true) {
+                    @Override
+                    public void onNext(HotMoreListBody object) {
+                        callback.onSuccess(object);
+                    }
+
+                    @Override
+                    protected void onError(ApiException ex) {
+                        super.onError(ex);
+                        callback.onFailure(ex.getCode(), ex.getErrMessage());
+                    }
+                });
+        addSubscrebe(subscription);
+    }
 }

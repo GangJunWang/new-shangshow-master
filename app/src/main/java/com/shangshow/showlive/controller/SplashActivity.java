@@ -1,39 +1,30 @@
 package com.shangshow.showlive.controller;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.LoadedFrom;
-import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
-import com.nostra13.universalimageloader.core.imageaware.ImageAware;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.shangshow.showlive.R;
 import com.shangshow.showlive.base.BaseActivity;
 import com.shangshow.showlive.base.MConstants;
 import com.shangshow.showlive.base.cache.CacheCenter;
-import com.shangshow.showlive.common.utils.AnimUtil;
 import com.shangshow.showlive.common.utils.CommonUtil;
 import com.shangshow.showlive.common.utils.XmlDB;
 import com.shangshow.showlive.controller.common.LoginActivity;
 import com.shangshow.showlive.model.UserModel;
-import com.shangshow.showlive.model.callback.Callback;
 import com.shangshow.showlive.network.service.models.AdsInfo;
 import com.shaojun.utils.log.Logger;
-
-import java.util.List;
 
 
 public class SplashActivity extends BaseActivity implements MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener, View.OnClickListener {
@@ -41,21 +32,24 @@ public class SplashActivity extends BaseActivity implements MediaPlayer.OnErrorL
     private DisplayImageOptions options;
     private ImageView imageView;
     private VideoView videoView;
-    private Button skipBtn;
+    private LinearLayout skipBtn;
     private RelativeLayout adsinfoLinkLayout;
+    private TextView currentdowntumer;
     private TextView adMessage;
+
     private RelativeLayout bottomLayout;//底部试图，显示商秀相关
 
     private AdsInfo adsInfo;
 
     private String defaultUrl = "http://img4q.duitang.com/uploads/item/201404/14/20140414004026_H4Q8R.jpeg";
+    private Button splash_button_skip;
 
     @Override
     protected int getActivityLayout() {
         return R.layout.activity_splash;
     }
 
-    @Override
+   /* @Override
     protected void setContentViewOption(int resId) {
         super.setContentViewOption(resId);
         setSwipeBackEnable(false);
@@ -72,22 +66,43 @@ public class SplashActivity extends BaseActivity implements MediaPlayer.OnErrorL
                 })
                 .cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
                 .bitmapConfig(Bitmap.Config.RGB_565).build();
-    }
+    }*/
 
 
     @Override
     protected void initWidget() {
         super.initWidget();
         titleBarView.inShow(false);
+        splash_button_skip = (Button) findViewById(R.id.splash_button_skip);
+        splash_button_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                skipAndLeaveOut();
+            }
+        });
+        currentdowntumer = (TextView) findViewById(R.id.currentdowntimer);
         videoView = (VideoView) this.findViewById(R.id.splash_video);
         imageView = (ImageView) findViewById(R.id.splash_image);
         adsinfoLinkLayout = (RelativeLayout) findViewById(R.id.splash_adsinfo_link_layout);
         adMessage = (TextView) findViewById(R.id.ad_message);
         bottomLayout = (RelativeLayout) findViewById(R.id.splash_bottom_layout);
-        skipBtn = (Button) findViewById(R.id.splash_skip_btn);
+        skipBtn = (LinearLayout) findViewById(R.id.splash_skip_btn);
         //隐藏
         adsinfoLinkLayout.setVisibility(View.GONE);
-        bottomLayout.setVisibility(View.GONE);
+        //  bottomLayout.setVisibility(View.GONE);
+        String s = "android.resource://" + getPackageName() + "/" + R.raw.lastspalsh;
+        // 播放动画   三十秒后进入下一个界面
+        playVideo(Uri.parse(s));
+        //倒计时准备
+        countDownTimer.start();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                skipAndLeaveOut();
+                finish();
+            }
+        }, 30000);
 
     }
 
@@ -100,11 +115,13 @@ public class SplashActivity extends BaseActivity implements MediaPlayer.OnErrorL
 //        playVideo(uri);
     }
 
+
     @Override
     protected void setView() {
         //获取广告
-        obtainAds();
+        // obtainAds();
     }
+
 
     public void playVideo(Uri uri) {
         videoView.setVisibility(View.VISIBLE);
@@ -119,7 +136,7 @@ public class SplashActivity extends BaseActivity implements MediaPlayer.OnErrorL
         videoView.start();
     }
 
-    public void showImage(String url) {
+/*    public void showImage(String url) {
         videoView.setVisibility(View.GONE);
         imageView.setVisibility(View.VISIBLE);
 
@@ -143,15 +160,12 @@ public class SplashActivity extends BaseActivity implements MediaPlayer.OnErrorL
             public void onLoadingCancelled(String s, View view) {
             }
         });
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.splash_video:
-                break;
-            case R.id.splash_skip_btn:
-                skipAndLeaveOut();
                 break;
             case R.id.splash_adsinfo_link_layout:
                 if (adsInfo != null && adsInfo.actionType == MConstants.AD_ACTIONTYPE_WEB) {
@@ -166,23 +180,25 @@ public class SplashActivity extends BaseActivity implements MediaPlayer.OnErrorL
         }
     }
 
+
     @Override
     public void onCompletion(MediaPlayer mp) {
-        fade();
+        // fade();
     }
 
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         showToast("视频播放 onError");
         String url = defaultUrl;
-        showImage(url);
+        //  showImage(url);
         return true;
     }
 
 
-    /**
+
+/*    *//**
      * 获取广告
-     */
+     *//*
     private void obtainAds() {
         userModel.adsInfoList(MConstants.ADS_NO_SPLASH, new Callback<List<AdsInfo>>() {
             @Override
@@ -211,11 +227,11 @@ public class SplashActivity extends BaseActivity implements MediaPlayer.OnErrorL
                 showImage(url);
             }
         }, false);
-    }
+    }*/
 
-    /**
+/*    *//**
      * 图片动画
-     */
+     *//*
     private void fade() {
 
         AnimUtil.startScaleAnimation(5000, imageView, new Animation.AnimationListener() {
@@ -234,7 +250,7 @@ public class SplashActivity extends BaseActivity implements MediaPlayer.OnErrorL
 
             }
         });
-    }
+    }*/
 
     /**
      * 离开启动页
@@ -248,11 +264,11 @@ public class SplashActivity extends BaseActivity implements MediaPlayer.OnErrorL
             finish();
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         } else {
-          //  Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-            if (CacheCenter.getInstance().isLogin()){
+            //  Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            if (CacheCenter.getInstance().isLogin()) {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
-            }else {
+            } else {
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -262,10 +278,24 @@ public class SplashActivity extends BaseActivity implements MediaPlayer.OnErrorL
         }
     }
 
+    private int currenttime = 30;
+    CountDownTimer countDownTimer = new CountDownTimer(30000, 1000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            currenttime--;
+            currentdowntumer.setText(currenttime + "");
+        }
 
-    @Override
+        @Override
+        public void onFinish() {
+
+        }
+    };
+
+
+ /*   @Override
     protected void onDestroy() {
         super.onDestroy();
         userModel.unSubscribe();
-    }
+    }*/
 }

@@ -1,1 +1,1 @@
-include ':app', ':bdwallet_pay_sdk', ':pingpp', ':quickbase', ':uikit'
+include ':app', ':quickbase', ':uikit', ':lib:bdwallet_pay_sdk', ':lib:pingpp', ':lib:pingpp_one'

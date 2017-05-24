@@ -3,9 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/bdwallet_pay_sdk/bdwallet_pay_sdk.iml" filepath="$PROJECT_DIR$/bdwallet_pay_sdk/bdwallet_pay_sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/bdwallet_pay_sdk/bdwallet_pay_sdk.iml" filepath="$PROJECT_DIR$/lib/bdwallet_pay_sdk/bdwallet_pay_sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/jungang-shangshow-master.iml" filepath="$PROJECT_DIR$/jungang-shangshow-master.iml" />
-      <module fileurl="file://$PROJECT_DIR$/pingpp/pingpp.iml" filepath="$PROJECT_DIR$/pingpp/pingpp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/pingpp/pingpp.iml" filepath="$PROJECT_DIR$/lib/pingpp/pingpp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/pingpp_one/pingpp_one.iml" filepath="$PROJECT_DIR$/lib/pingpp_one/pingpp_one.iml" />
       <module fileurl="file://$PROJECT_DIR$/quickbase/quickbase.iml" filepath="$PROJECT_DIR$/quickbase/quickbase.iml" />
       <module fileurl="file://$PROJECT_DIR$/uikit/uikit.iml" filepath="$PROJECT_DIR$/uikit/uikit.iml" />
     </modules>

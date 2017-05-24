@@ -38,6 +38,8 @@ public class PlayVideoCommint extends AppCompatActivity {
         //网络视频
        String videoUrl2 =  urls;
        Uri uri = Uri.parse( videoUrl2 );
+        System.out.println("-------------zzuizhong de url" + uri
+        );
         play_video_commint.setVideoURI(uri);
         //播放
         play_video_commint.start();

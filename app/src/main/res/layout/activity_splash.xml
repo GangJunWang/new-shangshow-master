@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000"
     android:orientation="vertical">
 
     <FrameLayout
@@ -23,6 +24,8 @@
             android:id="@+id/splash_video"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
             android:visibility="gone" />
     </FrameLayout>
 
@@ -33,6 +36,7 @@
         android:layout_height="@dimen/common_list_item_height_80"
         android:layout_above="@+id/splash_bottom_layout"
         android:layout_gravity="bottom"
+        android:visibility="invisible"
         android:background="@color/translucence">
 
         <TextView
@@ -85,16 +89,34 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/common_activity_padding_5" />
 
-        <Button
+        <LinearLayout
             android:id="@+id/splash_skip_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/common_activity_padding_10"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
             android:layout_marginRight="@dimen/common_activity_padding_16"
             android:background="@drawable/shape_btn_skip_corner"
-            android:text="@string/skip" />
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/currentdowntimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:text="30"/>
+            <Button
+                android:id="@+id/splash_button_skip"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:background="#0000"
+                android:text="@string/skip" />
+        </LinearLayout>
+
 
     </RelativeLayout>
 

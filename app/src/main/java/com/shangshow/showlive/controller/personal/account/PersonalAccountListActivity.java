@@ -100,7 +100,7 @@ public class PersonalAccountListActivity extends BaseActivity {
             public void onItemClick(View itemView, int viewType, int position) {
                 amount = rechargeList.get(position).getAmount();
                 positionss = position;
-                long productId = 10;
+                long productId = 200;
                 BuyProductRequest buyProductRequest = new BuyProductRequest();
                 buyProductRequest.address = "";
                 buyProductRequest.contactName = "";
@@ -113,7 +113,7 @@ public class PersonalAccountListActivity extends BaseActivity {
                     @Override
                     public void onSuccess(BuyProductResponse buyProductResponse) {
 
-                        initperform(buyProductResponse.orderNo,amount);
+                        initperform(buyProductResponse.orderNo,amount,buyProductResponse.orderId);
                     }
 
                     @Override
@@ -126,10 +126,11 @@ public class PersonalAccountListActivity extends BaseActivity {
         });
     }
 
-    private void initperform(String orderNo,long amount) {
+    private void initperform(String orderNo,long amount,String orderId) {
         Intent intent = new Intent(PersonalAccountListActivity.this, PayOrderActivity.class);
         intent.putExtra("jiushiwo",amount + "");
         intent.putExtra("orderNo", orderNo);
+        intent.putExtra("orderId",orderId);
         startActivity(intent);
 
     }

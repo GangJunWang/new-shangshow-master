@@ -26,9 +26,13 @@ import com.shangshow.showlive.network.service.models.body.BasePageBody;
 import com.shangshow.showlive.network.service.models.body.CooperationPageBody;
 import com.shangshow.showlive.network.service.models.body.FavouriteApplyBody;
 import com.shangshow.showlive.network.service.models.body.GoodsPageBody;
+import com.shangshow.showlive.network.service.models.body.HomeHotFirstBody;
+import com.shangshow.showlive.network.service.models.body.HotMoreListBody;
 import com.shangshow.showlive.network.service.models.body.MerchantApplyBody;
 import com.shangshow.showlive.network.service.models.body.OrderPageBody;
 import com.shangshow.showlive.network.service.models.body.PageBody;
+import com.shangshow.showlive.network.service.models.body.PayOrderDto;
+import com.shangshow.showlive.network.service.models.body.PayRecBody;
 import com.shangshow.showlive.network.service.models.body.RewardGiftBody;
 import com.shangshow.showlive.network.service.models.body.StarApplyBody;
 import com.shangshow.showlive.network.service.models.body.StartLiveBody;
@@ -36,6 +40,7 @@ import com.shangshow.showlive.network.service.models.body.UserBody;
 import com.shangshow.showlive.network.service.models.body.UserBusinessCooperationBody;
 import com.shangshow.showlive.network.service.models.body.VideoOffLiveBody;
 import com.shangshow.showlive.network.service.models.body.WeChatUserInfo;
+import com.shangshow.showlive.network.service.models.body.YoutubeListBody;
 import com.shangshow.showlive.network.service.models.requestJson.BuyProductRequest;
 import com.shangshow.showlive.network.service.models.responseBody.BuyProductResponse;
 import com.shangshow.showlive.network.service.models.responseBody.EditFriendBody;
@@ -453,4 +458,12 @@ public interface IUserModel {
     void productOffShelves(long videoId, String json, Callback<Object> callback);
 
     void getHotUserList(PageBody pageBody, Callback<Pager<UserInfo>> callback);
+
+    void getPayStringBody(PayOrderDto payOrderDto, Callback<PayRecBody> callback);
+
+    void getHomeHot(Callback<HomeHotFirstBody> callback);
+
+    void getYoutubeList(String dingdanhao, Callback<YoutubeListBody> callback);
+
+    void getHotMoreList(PageBody pageBody, Callback<HotMoreListBody> callback);
 }

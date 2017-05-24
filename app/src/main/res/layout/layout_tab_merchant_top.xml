@@ -15,7 +15,24 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_activity_padding_5"
         android:orientation="vertical">
-
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <ImageView
+            android:id="@+id/xingshang_first_play"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/youtube" />
+
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/play" />
+    </RelativeLayout>
 </LinearLayout>
 

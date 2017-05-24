@@ -7,11 +7,13 @@ import android.view.View;
 
 import com.shangshow.showlive.R;
 import com.shangshow.showlive.base.BaseActivity;
-import com.shangshow.showlive.common.model.ImageInfo;
 import com.shangshow.showlive.controller.adapter.HotmannlerAdapter;
 import com.shangshow.showlive.controller.member.BunchActivity;
 import com.shangshow.showlive.model.UserModel;
 import com.shangshow.showlive.model.callback.Callback;
+import com.shangshow.showlive.network.service.models.body.HotMoreListBody;
+import com.shangshow.showlive.network.service.models.body.HotMoreListContontBody;
+import com.shangshow.showlive.network.service.models.body.PageBody;
 import com.shaojun.widget.superAdapter.OnItemClickListener;
 
 import java.util.ArrayList;
@@ -21,10 +23,9 @@ public class HotMannler extends BaseActivity {
 
 
     private RecyclerView hot_recyclerview;
-    private List<Object> data = new ArrayList<>();
+    private List<HotMoreListContontBody> data = new ArrayList<>();
     private HotmannlerAdapter hotmannlerAdapter;
     private UserModel userModel;
-    private List<ImageInfo> imageInfos = new ArrayList<ImageInfo>();
 
     @Override
     protected int getActivityLayout() {
@@ -44,8 +45,8 @@ public class HotMannler extends BaseActivity {
     @Override
     protected void initWidget() {
         super.initWidget();
-        userModel = new UserModel(getBaseContext());
-        titleBarView.initCenterTitle("热门分类");
+        userModel = new UserModel(this);
+        titleBarView.initCenterTitle("订阅频道");
         //设置字体颜色
         titleBarView.getCenterTitle().setTextColor(getResources().getColor(R.color.a1_color));
         initData();
@@ -54,30 +55,33 @@ public class HotMannler extends BaseActivity {
 
     private void initData() {
 
-        userModel.getPGCVideoType(new Callback<List<ImageInfo>>() {
+        PageBody pageBody = new PageBody();
+        pageBody.pageNum = 1;
+        pageBody.pageSize = 10;
+        userModel.getHotMoreList(pageBody, new Callback<HotMoreListBody>() {
             @Override
-            public void onSuccess(List<ImageInfo> datas) {
-                imageInfos.addAll(datas);
-                hotmannlerAdapter.addAll(datas);
+            public void onSuccess(HotMoreListBody hotMoreListBody) {
+                data.addAll(hotMoreListBody.list);
+                hotmannlerAdapter.addAll(hotMoreListBody.list);
                 hotmannlerAdapter.notifyDataSetHasChanged();
             }
 
             @Override
             public void onFailure(int resultCode, String message) {
-
             }
         });
     }
+
     private void initView() {
         hot_recyclerview = (RecyclerView) findViewById(R.id.hot_recyclerview);
         hot_recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        hotmannlerAdapter = new HotmannlerAdapter(getBaseContext(), imageInfos, R.layout.image_info_layout);
+        hotmannlerAdapter = new HotmannlerAdapter(getBaseContext(), data, R.layout.image_info_layout);
         hot_recyclerview.setAdapter(hotmannlerAdapter);
         hotmannlerAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int viewType, int position) {
                 Intent intent = new Intent(getBaseContext(), BunchActivity.class);
-                intent.putExtra("currTitle", imageInfos.get(position).videoType + "");
+                intent.putExtra("currTitle", data.get(position).pgcVideoTypesId);
                 startActivity(intent);
             }
         });

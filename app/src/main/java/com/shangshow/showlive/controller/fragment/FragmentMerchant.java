@@ -23,6 +23,7 @@ import com.shangshow.showlive.common.widget.ultra.loadmore.LoadMoreFooterView;
 import com.shangshow.showlive.common.widget.ultra.loadmore.RLPtrFrameLayout;
 import com.shangshow.showlive.common.widget.viewpager.CirclePageIndicator;
 import com.shangshow.showlive.common.widget.viewpager.LoopViewPager;
+import com.shangshow.showlive.controller.PalyLocationVideoActivity;
 import com.shangshow.showlive.controller.adapter.BannerViewPagerAdapter;
 import com.shangshow.showlive.controller.adapter.HomeLiveVideoSingleAdapter;
 import com.shangshow.showlive.controller.common.LoginActivity;
@@ -37,6 +38,7 @@ import com.shangshow.showlive.network.service.models.VideoRoom;
 import com.shangshow.showlive.network.service.models.body.PageBody;
 import com.shaojun.widget.superAdapter.OnItemClickListener;
 import com.shaojun.widget.superAdapter.divider.HorizontalDividerItemDecoration;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +53,7 @@ public class FragmentMerchant extends BaseFragment {
     private TitleBarView titleBarView;
     private RLPtrFrameLayout rlPtrFrameLayout;
     private HomeLiveVideoSingleAdapter homeLiveVideoSingleAdapter;
+    private String logourl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495465975490&di=be18e52a00d5fcd026bdb9d291b032d9&imgtype=0&src=http%3A%2F%2Fwww.im4s.cn%2Fupload%2F120908%2F22445_967540.jpg";
     //顶部试图
     private View topView;
     //banner广告
@@ -62,6 +65,7 @@ public class FragmentMerchant extends BaseFragment {
     private ArrayList<ImageView> gridAdsImages;
 
     private long currPage = 1;
+    private ImageView xingshang_first_play;
 
     @Override
     public void onAttach(Context context) {
@@ -159,6 +163,14 @@ public class FragmentMerchant extends BaseFragment {
         gridAdsLayout = (LinearLayout) topView.findViewById(R.id.merchant_grid_ads_layout);
         //9宫格-代码布局【被逼的】
         gridAdsImages = ShangXiuUtil.merChantGridAdsView(mContext, gridAdsLayout);
+        xingshang_first_play = (ImageView) topView.findViewById(R.id.xingshang_first_play);
+        Picasso.with(getActivity()).load(logourl).placeholder(R.mipmap.youtube).into(xingshang_first_play);
+        xingshang_first_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              startActivity(new Intent(getActivity(), PalyLocationVideoActivity.class));
+            }
+        });
         return topView;
     }
 

@@ -25,15 +25,20 @@ import com.shangshow.showlive.network.service.models.body.BasePageBody;
 import com.shangshow.showlive.network.service.models.body.CooperationPageBody;
 import com.shangshow.showlive.network.service.models.body.FavouriteApplyBody;
 import com.shangshow.showlive.network.service.models.body.GoodsPageBody;
+import com.shangshow.showlive.network.service.models.body.HomeHotFirstBody;
+import com.shangshow.showlive.network.service.models.body.HotMoreListBody;
 import com.shangshow.showlive.network.service.models.body.MerchantApplyBody;
 import com.shangshow.showlive.network.service.models.body.OrderPageBody;
 import com.shangshow.showlive.network.service.models.body.PageBody;
+import com.shangshow.showlive.network.service.models.body.PayOrderDto;
+import com.shangshow.showlive.network.service.models.body.PayRecBody;
 import com.shangshow.showlive.network.service.models.body.RewardGiftBody;
 import com.shangshow.showlive.network.service.models.body.StarApplyBody;
 import com.shangshow.showlive.network.service.models.body.StartLiveBody;
 import com.shangshow.showlive.network.service.models.body.UserBody;
 import com.shangshow.showlive.network.service.models.body.VideoOffLiveBody;
 import com.shangshow.showlive.network.service.models.body.WeChatUserInfo;
+import com.shangshow.showlive.network.service.models.body.YoutubeListBody;
 import com.shangshow.showlive.network.service.models.requestJson.BuyProductRequest;
 import com.shangshow.showlive.network.service.models.responseBody.BuyProductResponse;
 import com.shangshow.showlive.network.service.models.responseBody.EditFriendBody;
@@ -892,4 +897,34 @@ public class ApiWrapper {
                 .compose(this.<Pager<UserInfo>>applySchedulers());
     }
 
+    /**
+     * 获取支付所需要的参数信息
+     */
+    public Observable<PayRecBody> getPayStringBody(PayOrderDto payOrderDto) {
+        return RetrofitManager.getInstance().getUserService().getPayStringBody(payOrderDto)
+                .compose(this.<PayRecBody>applySchedulers());
+    }
+    /**
+     * 获取封面参数
+     */
+    public Observable<HomeHotFirstBody> getHomeHot() {
+        return RetrofitManager.getInstance().getUserService().getHomeHot()
+                .compose(this.<HomeHotFirstBody>applySchedulers());
+    }
+    /**
+     * youtube
+     */
+    public Observable<YoutubeListBody> getYoutubeList(String dingdanhao) {
+        return RetrofitManager.getInstance().getUserService().getYoutubeList(dingdanhao)
+                .compose(this.<YoutubeListBody>applySchedulers());
+    }
+    /**
+     * 获取热门视频更多type
+     *
+     */
+
+    public Observable<HotMoreListBody> getHotMoreList(PageBody pageBody) {
+        return RetrofitManager.getInstance().getUserService().getHotMoreList(pageBody)
+                .compose(this.<HotMoreListBody>applySchedulers());
+    }
 }

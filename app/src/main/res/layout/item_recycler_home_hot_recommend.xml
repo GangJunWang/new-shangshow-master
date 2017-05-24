@@ -4,7 +4,6 @@
     android:gravity="center"
     android:orientation="vertical">
 
-
     <include
         android:id="@+id/user_icon_layout"
         layout="@layout/layout_item_user_avatar" />

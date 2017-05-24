@@ -166,7 +166,7 @@ public class LivePlayer implements lsMessageHandler {
 
             if (m_tryToStopLiveStreaming) {
                 //m_liveStreamingOn = false;
-            } else if (!mIsFilterMode){
+            } else if (!mIsFilterMode) {
                 //继续视频推流，推固定图像
                 mLSMediaCapture.backgroundVideoEncode();
 
@@ -190,7 +190,8 @@ public class LivePlayer implements lsMessageHandler {
 
         // 推流URL和分辨率信息
         mVideoEncodeWidth = 640;
-        mVideoEncodeHeight = 480;
+        //   mVideoEncodeHeight = 480;
+        mVideoEncodeHeight = 320;
 
         //创建直播实例
         mLSMediaCapture = new lsMediaCapture(this, getActivity(), mVideoEncodeWidth, mVideoEncodeHeight, mIsFilterMode);
@@ -387,6 +388,7 @@ public class LivePlayer implements lsMessageHandler {
 
     /**
      * 返回是否成功开启
+     *
      * @return
      */
     public boolean startStopLive() {
@@ -438,6 +440,7 @@ public class LivePlayer implements lsMessageHandler {
 
     /**
      * 重启直播（例如：断网重连）
+     *
      * @return 是否开始重启
      */
     public boolean restartLive() {

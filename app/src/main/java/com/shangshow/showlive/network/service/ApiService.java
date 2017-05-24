@@ -25,15 +25,20 @@ import com.shangshow.showlive.network.service.models.body.BasePageBody;
 import com.shangshow.showlive.network.service.models.body.CooperationPageBody;
 import com.shangshow.showlive.network.service.models.body.FavouriteApplyBody;
 import com.shangshow.showlive.network.service.models.body.GoodsPageBody;
+import com.shangshow.showlive.network.service.models.body.HomeHotFirstBody;
+import com.shangshow.showlive.network.service.models.body.HotMoreListBody;
 import com.shangshow.showlive.network.service.models.body.MerchantApplyBody;
 import com.shangshow.showlive.network.service.models.body.OrderPageBody;
 import com.shangshow.showlive.network.service.models.body.PageBody;
+import com.shangshow.showlive.network.service.models.body.PayOrderDto;
+import com.shangshow.showlive.network.service.models.body.PayRecBody;
 import com.shangshow.showlive.network.service.models.body.RewardGiftBody;
 import com.shangshow.showlive.network.service.models.body.StarApplyBody;
 import com.shangshow.showlive.network.service.models.body.StartLiveBody;
 import com.shangshow.showlive.network.service.models.body.UserBody;
 import com.shangshow.showlive.network.service.models.body.VideoOffLiveBody;
 import com.shangshow.showlive.network.service.models.body.WeChatUserInfo;
+import com.shangshow.showlive.network.service.models.body.YoutubeListBody;
 import com.shangshow.showlive.network.service.models.requestJson.BuyProductRequest;
 import com.shangshow.showlive.network.service.models.responseBody.BuyProductResponse;
 import com.shangshow.showlive.network.service.models.responseBody.EditFriendBody;
@@ -76,10 +81,11 @@ public interface ApiService {
 
     /**
      * 登陆
+     *
      * @param body
      * @return
      */
-    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("service/login/0")
     Call<Response<Object>> login(@Body RequestBody body);
 
@@ -276,7 +282,8 @@ public interface ApiService {
 
     /**
      * 购买商品->下订单
-     * @param productId 产品编号
+     *
+     * @param productId      产品编号
      * @param buyProductInfo 购买信息
      * @return
      */
@@ -285,6 +292,7 @@ public interface ApiService {
 
     /**
      * 购买商品->下订单
+     *
      * @param rechargeInfoId 产品编号
      * @return
      */
@@ -294,11 +302,12 @@ public interface ApiService {
 
     /**
      * 充值商秀币->下订单
+     *
      * @param rechargeInfoId 产品编号
      * @return
      */
     @POST("orders/videoBuy/{productId}/0")
-    Observable<Response<BuyProductResponse>> chongzhixiubiBuy(@Path("productId") long rechargeInfoId ,@Body BuyProductRequest buyProductInfo);
+    Observable<Response<BuyProductResponse>> chongzhixiubiBuy(@Path("productId") long rechargeInfoId, @Body BuyProductRequest buyProductInfo);
 
 
     /**
@@ -324,7 +333,7 @@ public interface ApiService {
      * @param body
      * @return
      */
-    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("user/agreeCooperation/0")
     Call<Response<Object>> agreeCooperation(@Body RequestBody body);
 
@@ -372,7 +381,6 @@ public interface ApiService {
      */
     @POST("service/getVideoRoomList/{videoType}/0")
     Observable<Response<Pager<VideoRoom>>> getVideoRoomList(@Path("videoType") String videoType, @Body PageBody pageBody);
-
 
 
     /**
@@ -439,22 +447,24 @@ public interface ApiService {
 
     /**
      * 直播上架商品
+     *
      * @param videoId
      * @param requestBody
      * @return
      */
     @POST("products/productShelves/{videoId}/0")
-    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     Call<Response<Object>> productShelves(@Path("videoId") long videoId, @Body RequestBody requestBody);
 
     /**
      * 直播下架商品
+     *
      * @param videoId
      * @param requestBody
      * @return
      */
     @POST("products/productOffShelves/{videoId}/0")
-    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     Call<Response<Object>> productOffShelves(@Path("videoId") long videoId, @Body RequestBody requestBody);
 
     /**
@@ -514,6 +524,7 @@ public interface ApiService {
 
     /**
      * 当前用户的钻石收益详情
+     *
      * @return
      */
     @POST("user/getDiamondEarn/0")
@@ -522,6 +533,7 @@ public interface ApiService {
 
     /**
      * 当前用户的现金收益总额
+     *
      * @return
      */
     @POST("user/getCashBalance/0")
@@ -529,6 +541,7 @@ public interface ApiService {
 
     /**
      * 收益总额
+     *
      * @return
      */
     @POST("user/getCashEarnAmounts/0")
@@ -536,6 +549,7 @@ public interface ApiService {
 
     /**
      * 当前用户的现金收益详情
+     *
      * @return
      */
     @POST("user/getCashEarnInfo/0")
@@ -543,6 +557,7 @@ public interface ApiService {
 
     /**
      * 查询用户当前订单信息
+     *
      * @return
      */
     @POST("orders/list/0")
@@ -550,6 +565,7 @@ public interface ApiService {
 
     /**
      * 操作询户当前订单信息  去支付/取消支付
+     *
      * @return
      */
     @GET("orders/cancelOrder/{orderNo}/0")
@@ -557,6 +573,7 @@ public interface ApiService {
 
     /**
      * 被打赏的用户获取打赏的用户和金额
+     *
      * @return
      */
     @POST("user/getRewardMeList/0")
@@ -564,6 +581,7 @@ public interface ApiService {
 
     /**
      * 当前用户打赏的用户
+     *
      * @return
      */
     @POST("user/getMyRewardList/0")
@@ -571,6 +589,7 @@ public interface ApiService {
 
     /**
      * 当前用户获取到被打赏的总金额
+     *
      * @return
      */
     @POST("user/getRewardMeAmounts/0")
@@ -578,6 +597,7 @@ public interface ApiService {
 
     /**
      * 当前用户打赏的总额
+     *
      * @return
      */
     @POST("user/getMyRewardAmounts/0")
@@ -585,6 +605,7 @@ public interface ApiService {
 
     /**
      * 当前用户的账户钻石余额
+     *
      * @return
      */
     @POST("user/getAccountBalance/0")
@@ -592,6 +613,7 @@ public interface ApiService {
 
     /**
      * 礼物列表
+     *
      * @return
      */
     @POST("products/gaves/{giftType}/0")
@@ -636,6 +658,7 @@ public interface ApiService {
 
     /**
      * 用户，商家合作详情查询
+     *
      * @param cooperationApplyInfo
      * @return
      */
@@ -643,29 +666,30 @@ public interface ApiService {
     Observable<Response<CooperationApplyDetail>> cooperationApplyDetail(@Body CooperationApplyInfo cooperationApplyInfo);
 
     /**
-     *
      * @param body
      * @return
      */
-    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("user/cooperationApply/0")
     Call<Response<Object>> cooperationApply(@Body RequestBody body);
 
     /**
      * 用户上传视屏申请提交
+     *
      * @param body
      * @return
      */
-    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("video/applyVideo/0")
     Call<Response<Object>> applyVideo(@Body RequestBody body);
 
     /**
      * 获取商品列表
+     *
      * @param body
      * @return
      */
-    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("products/getProducts/0")
     Call<Response<Object>> getProducts(@Body RequestBody body);
 
@@ -681,7 +705,6 @@ public interface ApiService {
     Observable<Response<Goods>> addProductsInfo(@Body Goods goods);
 
     /**
-     *
      * @param cooperationPageBody
      * @return
      */
@@ -697,8 +720,8 @@ public interface ApiService {
     Observable<Response<Pager<UserInfo>>> getHotUserList(@Body PageBody pageBody);
 
     /**
-     *
      * 获取推荐列表视频
+     *
      * @return
      */
     @POST("PGCVideo/getPGCVideoInfo/0")
@@ -706,19 +729,39 @@ public interface ApiService {
 
 
     /**
-     *
      * 根据roomID获取主播的开播信息 VideoRoom
+     *
      * @return
      */
     @POST("/service/getVideoRoomByVideoRoomId/{roomId}/0")
     Observable<Response<VideoRoom>> getSingeoVideoRoom(@Path("roomId") Long roomId);
 
     /**
-     *
-     *
      * @return
      */
     @POST("orders/rechargeOrder/{orderNo}/0")
     Observable<Response<Object>> getPaySuccessEnd(@Path("orderNo") String dingdanhao);
 
+    /**
+     * 获取支付所需参数
+     */
+    @POST("/payment/crash/0")
+    Observable<Response<PayRecBody>> getPayStringBody(@Body PayOrderDto payOrderDto);
+
+    /**
+     * 获取主页热播封皮信息
+     */
+    @POST("/PGCVideo/getPGCVideoYouTube/0")
+    Observable<Response<HomeHotFirstBody>> getHomeHot();
+
+    /**
+     * 获取YouTube的视频列表
+     */
+    @POST("/PGCVideo/getPGCVideoInfo/{pgcVideoTypesId}/0")
+    Observable<Response<YoutubeListBody>> getYoutubeList(@Path("pgcVideoTypesId") String dingdanhao);
+    /**
+     * 获取更多热门type
+     */
+    @POST("/PGCVideo/getPGCVideoList/0")
+    Observable<Response<HotMoreListBody>> getHotMoreList(@Body PageBody pageBody);
 }
