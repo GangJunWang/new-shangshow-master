@@ -178,6 +178,7 @@ public abstract class LiveBaseActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
+
         setContentView(getActivityLayout());
         //应用运行时，保持屏幕高亮，不锁屏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -232,10 +233,12 @@ public abstract class LiveBaseActivity extends BaseActivity {
      ****************************/
 
     private void registerObservers(boolean register) {
+
         NIMClient.getService(ChatRoomServiceObserver.class).observeReceiveMessage(incomingChatRoomMsg, register);
         NIMClient.getService(ChatRoomServiceObserver.class).observeOnlineStatus(onlineStatus, register);
         NIMClient.getService(ChatRoomServiceObserver.class).observeKickOutEvent(kickOutObserver, register);
         NIMClient.getService(MsgServiceObserve.class).observeReceiveMessage(incomingMessageObserver, register);
+
     }
 
     /**************************

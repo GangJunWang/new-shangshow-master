@@ -96,8 +96,8 @@
         android:id="@+id/live_show_diamand_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_alignBottom="@+id/room_owner_layout">
+        android:layout_alignBottom="@+id/room_owner_layout"
+        android:layout_marginTop="25dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,21 +108,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/nim_alpha_gray_right_corner_background"
                 android:paddingBottom="5dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:paddingTop="5dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/nim_alpha_gray_right_corner_background">
+                android:paddingTop="5dp">
 
                 <TextView
                     android:id="@+id/diamand_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginTop="15dp"
                     android:paddingLeft="5dp"
                     android:text="商秀币"
-                    android:layout_marginTop="15dp"
                     android:textColor="@color/color_yellow_FAEC55"
                     android:textSize="13sp" />
 

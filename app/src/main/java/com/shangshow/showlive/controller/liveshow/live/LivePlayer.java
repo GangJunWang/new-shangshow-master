@@ -189,16 +189,16 @@ public class LivePlayer implements lsMessageHandler {
         m_tryToStopLivestreaming = false;
 
         // 推流URL和分辨率信息
-        mVideoEncodeWidth = 640;
+        mVideoEncodeWidth = 320;
         //   mVideoEncodeHeight = 480;
-        mVideoEncodeHeight = 320;
+        mVideoEncodeHeight = 240;
 
         //创建直播实例
         mLSMediaCapture = new lsMediaCapture(this, getActivity(), mVideoEncodeWidth, mVideoEncodeHeight, mIsFilterMode);
 
         //2、配置视频预览参数
         if (mIsFilterMode) {
-            ((OpenGLSurfaceView) liveView).setPreviewSize(mVideoEncodeWidth, mVideoEncodeHeight);
+            ((OpenGLSurfaceView) liveView   ).setPreviewSize(mVideoEncodeWidth, mVideoEncodeHeight);
         } else {
             ((LiveSurfaceView) liveView).setPreviewSize(mVideoEncodeWidth, mVideoEncodeHeight);
         }
